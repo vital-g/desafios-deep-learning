@@ -1,57 +1,78 @@
-# Cyberlabs
-### **Beat Human Performance!** 🌟
+# Reconhecimento de empresas de avi�o usando deeplearning
 
----
+Esse projeto busca resolver o problema proposto pela cyberlabs (ler o outro readme para mais detalhes)
 
-Este desafio é uma parte do processo de seleção da Cyberlabs. Ele é direcionado para uma pessoa desenvolvedora de software alocada na cidade do Rio de Janeiro que pretende se juntar ao nosso time que fica no escritório de Botafogo, pertinho do Metrô. Gostamos e damos preferência para trocas de experiências no dia a dia, mas temos total flexibilidade para eventuais home office e trabalhos a distância.
+## Getting Started
 
-Somos muito transparentes em tudo que fazemos por aqui e temos o objetivo master de manter um ambiente inclusivo e diversificado, desta forma, convidamos candidatas mulheres, pessoas que se identificam como negras, transexuais, homoafetivas e que se enquadram em outras minorias para a realização deste desafio. Literalmente nossas portas estão abertas para todos.
+Usando classifica��o supervisionada vamos aplicar redes neurais profundas para automaticamente distinguir a identidade visual de duas empresas de tranporte aereo (TAP e KLM)
 
-#### Nossa empresa 💃
-Se você curte inovação, a Cyberlabs irá lhe proporcionar um ambiente gigante de aprendizado. Já somos 30+ pessoas em constante evolução e crescimento. Temos integrantes no Rio, Brasília e Floripa e projetos grandes de AI no Brasil todo pra você participar.
+### Prerequisitos
+Para o codigo, foram usados dois virtual environments, um com python 2.7 e scrapy (pois algumas dependencias do scrapy n�o s�o compativeis com o python 3.x) e outro com python 3.7, tensorflow = 2.0 e pillow (biblioteca necessariam para o carregamento de fotos)
 
-Além de nossos três produtos principais, KeyApp, InSight Now e a plataforma Predisaurus, temos em nossa carteira de clientes empresas como iFood, Wilson Sons, Aeroporto Rio Galeão, SmartFit, BlueFit, Accenture, BodyTech, entre outras...
+### Construindo o dataset
 
-[Conheça mais sobre nossos projetos e o que fazemos](https://cyberlabs.ai) 💙
+Parte do desenho foi montar nosso proprio dataset, que no momento se encontra no link: https://drive.google.com/open?id=1Yo6W6OZf7pq0VgqLDAYn8GQlaiSOpyp0
 
----
+ele foi construido usando scrapy, ent�o para criar o mesmo dataset, v� at� a pasta scraper e rode:
 
-Your mission is to build an image classification model that can differentiate between two
-different airlines of your choosing, given an image of an aircraft (for example, differentiate
-between Azul and Gol), using any of the following frameworks: Tensorflow, PyTorch or Keras.
+```
+#para baixar as fotos da KLM
+scrapy crawl airplanes
+#para baixar as fotos da TAP
+scrapy crawl airplanestap
+```
+### dificuldades na constru��o do dataset
 
-For example, given the input image:
+Como queriamos raspar o sistema de persquisa do site airliners, foi necessario configurar o scraper para ignorar o robot.txt do site
 
-![alt text](https://github.com/cyberlabsai/desafios-deep-learning/blob/master/images/klm.png)
+### treinamento da rede neural
+O codigo foi treinado usando TensorFlow 2.0 como backend numa placa GTX 1060
 
-Your code should output the company name, in this case KLM
+### instalando
 
-For collecting and cleaning your dataset we recommend you scrape from www.airliners.net
-which contains a big collection of airplane pictures already separated by airline, model etc.
-You may also use any technique you find necessary on achieving the highest possible
-accuracy without overfitting your model (eg. transfer learning).
 
-Best of luck!
-AI Dev Team at CyberLabs
+O arquivo possui 4 notebooks:
 
----
+move files: responsavel por deixar os arquivos da forma como foram preparados pelo scrper no modelo como a keras API prefere
 
-## Como participar do desafio? 🔥
+pipeline: responsavel pelo trabalho de load e e treino da rede neural
 
-Antes de iniciar os passos necessários para realizar o desafio, tenha em mente que você deverá seguir todos os requisitos do mesmo. Sejam eles relacionados a stacks, metolodigas, formas de entrega, escrita de código ou qualquer outro requisito descrito no conteúdo do desafio.
+Predict_image: um pequeno preditor onde voc� pode usar o modelo em uma unica foto (divirta-se :) )
 
-1. Dê um fork neste repositório.
-2. Clone o fork na sua máquina.
-3. Escreva seu programa utilizando estritamente todos os requisitos listados pelo desafio. É muito importante você ter em mente qua avaliaremos seus commits no Git, então, não esqueça de realizar um commit a cada vitória conquistada!
-4. Seu repositório deverá conter um `README.md` descrevendo os passos para treinar seu dataset e rodar seu programa, descrevendo também como foi o seu processo de treinamento, a arquitetura usada no modelo e quais técnicas foram usadas para ampliar e processar a imagem. Da mesma forma, deverá conter um script de demo do código e as instruções necessárias para a execução do mesmo.
- > O dataset usado para o treinamento do modelo poderá ser enviado para qualquer serviço de compartilhamento em nuvem como Google Drive, Dropbox ou similares e o link para download deverá ser relacionado no arquivo `README.md`.
-5. Assim que testar tudo e validar que tudo funciona, faça seu último commit com o título 'Finalização do desafio de {{Área}} da Cyberlabs'.
-6. Abra uma issue neste repositório com o título '[DESAFIO] {{Seu nome}} - {{Sua cidade}}'.
-7. No conteúdo da issue faça um breve resumo sobre você, uma mini-bio bem simples mesmo, falando algo que possa chamar nossa atenção, pode ser um hobbie, experiências profissionais passadas, acontecimentos e curiosidades sobre o decorrer do desafio ou qualquer coisa extra que você gostaria de compartilhar conosco. Isso é muito importante para que nós possamos aprender um pouco mais sobre você.
-8. Na sequência da sua bio, coloque o link do seu fork aqui do github com o código que você gerou. Aproveite também para nos enviar seu LinkedIn e se quiser, seu e-mail, além de outras formas de contato, como suas redes sociais por exemplo.
+Predict: o que ser� usado pelo usuario para testar os seus proprios casos
 
-Assim que sua issue for aberta, algum membro da [Cyberlabs](https://cyberlabs.ai) entrará em contato com você diretamente e após analisar seu desafio, te dará um feedback transparente sobre ele e te encaminhará para os próximos passos, se for o caso.
+### testes e mais teste
 
-Lembre-se, quanto mais informações tivermos sobre você, melhor conseguiremos te avaliar.
+Uma arquitetura que j� se provou neste trabalho foi a vgg, fiz testes com vgg de apenas um bloco ou mais, porem houve pouco ganho em accuracia, assim, preferi ficar com a vgg16 que j� havia se provado em outros datasets
 
-Mande seu desafio e **boa sorte**! 🤘
+Estranhamente os testes com vgg16 costumavam inicialmente apresentar algo como 97% de acerto e depois diminuir, o que suponho que est� relacionado com overfittings
+
+Essa arquitetura j� usa varias tecnicas interessantes como dropout e transfer learning, n�o continuei o treino pois a arquitetura j� era melhor separando as companhias que eu a priori(e � assim que come�a a era das maquinas) pois essas empresas possuem modelos de avi�es com uma identidade visual diferente da usual, que n�o estou acostumado a ver, mas que a maquina se acostumou rapidamente, o que segue uma impress�o minha de que algoritmos de classifica��o de imagens tendem a ir superando seres humanos na medida que os casos se tornam cada vez mais incomuns
+
+
+
+## Como usar esse repositorio
+
+### treinando o modelo a partir das fotos que usei
+
+1. Fa�a o download do arquivo das fotos como extraidas pelo scraper no link a seguir: https://drive.google.com/open?id=1Yo6W6OZf7pq0VgqLDAYn8GQlaiSOpyp0
+2. Rode notebook "move files.ipnb", ele automaticamente organizara do jeito que � necessario
+3. Rode o notebook "pipeline.ipynb" ele ir� automaticamente treinar o modelo usando a arquitetura vgg16
+4. Os modelos ser�o salvos na pasta "model" e voc� pode colocar o modelo que achar melhor na pasta best model, pois ele automaticamente~usa um dos modelos nesta pasta para fazer as predi��es (idealmente s� deve haver um modelo nela)
+
+### fazendo predi��es
+
+1. Abra o arquivo "predict.ipynb"
+2. Mude a variavel "dataset_path" para a string correspondente ao path do repositorio com as fotos que deseja classificar
+3. Rode o arquivo e ele ir� automaticamente criar duas pastas no directorio especificado (klm e tap), e ir� separar os arquivos nos directorios que ele prever o mais adequado
+4. Divirta-se
+
+
+## Agradecimentos
+
+### links uteis na produ��o do codigo
+
+1. https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network-to-classify-photos-of-dogs-and-cats/
+2. https://www.pyimagesearch.com/2019/11/04/traffic-sign-classification-with-keras-and-deep-learning/
+3. https://www.tensorflow.org/tutorials/keras/classification
+4. https://keras.io/
