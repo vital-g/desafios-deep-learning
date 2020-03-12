@@ -17,9 +17,9 @@ ele foi construido usando scrapy, então para criar o mesmo dataset, vá até a pas
 
 ```
 #para baixar as fotos da KLM
-scrapy crawl airplanes
+scrapy crawl airlinersklm
 #para baixar as fotos da TAP
-scrapy crawl airplanestap
+scrapy crawl airlinerstap
 ```
 ### Dificuldades na construção do dataset
 
