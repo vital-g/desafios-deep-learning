@@ -8,7 +8,7 @@
 import scrapy
 
 
-class OurfirstscraperItem(scrapy.Item):
+class scraperItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
