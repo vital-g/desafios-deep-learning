@@ -64,7 +64,9 @@ Essa arquitetura já usa varias tecnicas interessantes como dropout e transfer le
 
 1. Abra o arquivo "predict.ipynb"
 2. Mude a variavel "dataset_path" para a string correspondente ao path do repositorio com as fotos que deseja classificar
+Obs: você pode configurar "dataset_path = 'pred'", o que fará o código rodar num mini dataset que separei para esse tipo de teste
 3. Rode o arquivo e ele irá automaticamente criar duas pastas no directorio especificado (klm e tap), e irá separar os arquivos nos directorios que ele prever o mais adequado
+
 4. Divirta-se
 
 
