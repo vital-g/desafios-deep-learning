@@ -5,7 +5,7 @@ from scrapy.spiders import Rule
 
 
 class DatabloggerSpider(scrapy.Spider):
-    name = 'airliners'
+    name = 'airlinersklm'
 #    allowed_domains = ['https://www.airliners.net/']
     start_urls = ['https://www.airliners.net/search?keywords=klm&page=1/']
     base_url = 'https://www.airliners.net/search?keywords=klm&page='
